@@ -90,7 +90,7 @@
         </div>
         <button id="gerarBtn"><i class="fa-solid fa-location-crosshairs"></i> Revelar Minha Localização</button>
         <p id="status"></p>
-        <div id="map"></div>
+
         <ul id="resultado">
             <li><strong class="label">ZIP</strong><div class="data-wrapper"><span id="zip" class="placeholder"></span></div><i class="fa-solid fa-copy copy-icon" data-target="zip" title="Copiar ZIP"></i></li>
             <li><strong class="label">Address 1</strong><div class="data-wrapper"><span id="address1" class="placeholder">Rua, Avenida, etc.</span></div><i class="fa-solid fa-copy copy-icon" data-target="address1" title="Copiar Address 1"></i></li>
@@ -99,22 +99,20 @@
             <li><strong class="label">City</strong><div class="data-wrapper"><span id="city" class="placeholder"></span></div><i class="fa-solid fa-copy copy-icon" data-target="city" title="Copiar City"></i></li>
             <li><strong class="label">Estado</strong><div class="data-wrapper"><span id="estado" class="placeholder"></span></div><i class="fa-solid fa-copy copy-icon" data-target="estado" title="Copiar Estado"></i></li>
             <li><strong class="label">Country</strong><div class="data-wrapper"><span id="country"></span></div><i class="fa-solid fa-copy copy-icon" data-target="country" title="Copiar Country"></i></li>
-            <li>
-                <strong class="label">Latitude</strong>
-                <div class="data-wrapper"><span id="latitude"></span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="latitude" title="Copiar Latitude"></i>
-            </li>
-             <li>
-                <strong class="label">Longitude</strong>
-                <div class="data-wrapper"><span id="longitude"></span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="longitude" title="Copiar Longitude"></i>
-            </li>
+            <li><strong class="label">Latitude</strong><div class="data-wrapper"><span id="latitude"></span></div><i class="fa-solid fa-copy copy-icon" data-target="latitude" title="Copiar Latitude"></i></li>
+            <li><strong class="label">Longitude</strong><div class="data-wrapper"><span id="longitude"></span></div><i class="fa-solid fa-copy copy-icon" data-target="longitude" title="Copiar Longitude"></i></li>
         </ul>
+
+        <div id="map"></div>
     </div>
+    
     <footer><p>&copy; 2025 Cavicon - Todos os direitos reservados.</p></footer>
+
     <div id="toast" class="toast"></div>
 
     <script>
+        // O JavaScript não precisa de nenhuma alteração, pois ele encontra os
+        // elementos pelo ID, independentemente da ordem deles no HTML.
         document.addEventListener('DOMContentLoaded', () => {
             const gerarBtn = document.getElementById('gerarBtn');
             const resultadoContainer = document.getElementById('resultado');
@@ -122,13 +120,11 @@
             const mapContainer = document.getElementById('map');
             let map = null;
             
-            // Objeto de campos atualizado para incluir lat/lon
             const campos = {
                 zip: document.getElementById('zip'), address1: document.getElementById('address1'),
                 address2: document.getElementById('address2'), address3: document.getElementById('address3'),
                 city: document.getElementById('city'), estado: document.getElementById('estado'),
-                country: document.getElementById('country'),
-                latitude: document.getElementById('latitude'),
+                country: document.getElementById('country'), latitude: document.getElementById('latitude'),
                 longitude: document.getElementById('longitude'),
             };
 
@@ -170,15 +166,12 @@
 
             async function success(position) {
                 const { latitude, longitude } = position.coords;
-
-                // Preenche o mapa e a lat/lon imediatamente
                 mapContainer.classList.add('visible');
                 map = L.map('map').setView([latitude, longitude], 17);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
                 L.marker([latitude, longitude]).addTo(map).bindPopup('<b>Você está aqui!</b>').openPopup();
-
                 campos.latitude.textContent = latitude.toFixed(6);
                 campos.longitude.textContent = longitude.toFixed(6);
                 campos.latitude.classList.remove('placeholder');
@@ -204,8 +197,7 @@
                                 }
                             }
                         }
-
-                        // Preenche o restante dos campos
+                        
                         Object.keys(campos).forEach(key => campos[key].classList.remove('placeholder'));
                         campos.zip.textContent = (addr.postcode || 'N/D').replace(/-/g, '');
                         campos.address1.textContent = (addr.road || '').toUpperCase();
