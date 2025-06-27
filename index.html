@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
@@ -23,8 +22,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: var(--font-family); background-color: var(--background-color); color: var(--text-color);
-            display: flex; flex-direction: column; /* Adicionado para o rodapé */
-            justify-content: center; align-items: center; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
             min-height: 100vh; padding: 40px 20px;
         }
         .container {
@@ -34,8 +32,7 @@
         .header { text-align: center; margin-bottom: 30px; }
         .header h1 { font-size: 2rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; justify-content: center; gap: 10px; }
         .header p { margin-top: 8px; font-size: 1rem; color: var(--text-light-color); }
-        .header p strong { color: var(--secondary-color); font-weight: 600; } /* Estilo para o nome da empresa */
-
+        .header p strong { color: var(--secondary-color); font-weight: 600; }
         #gerarBtn {
             width: 100%; padding: 15px; font-size: 1.1rem; font-weight: 600; color: #ffffff;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none;
@@ -45,13 +42,11 @@
         #gerarBtn:hover { transform: translateY(-3px); box-shadow: 0 7px 15px -3px rgba(54, 55, 149, 0.3); }
         #gerarBtn:disabled { background: #b0bec5; cursor: not-allowed; transform: none; box-shadow: none; }
         #gerarBtn .fa-spinner { animation: spin 1s linear infinite; }
-        
         #map {
             height: 300px; width: 100%; margin-top: 25px; border-radius: 12px;
             border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             display: none;
         }
-        
         #resultado { 
             list-style: none; margin-top: 25px; border: 1px solid var(--border-color);
             border-radius: 12px; padding: 10px 20px; opacity: 0;
@@ -60,7 +55,6 @@
         }
         #resultado.visible, #map.visible { display: block; }
         #resultado.visible { opacity: 1; transform: translateY(0); }
-        
         #resultado li { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
         #resultado li:last-child { border-bottom: none; }
         .label { width: 110px; text-align: right; margin-right: 20px; font-weight: 600; color: var(--text-light-color); font-size: 0.9rem; }
@@ -68,7 +62,6 @@
         .placeholder { color: #b0bec5; font-style: italic; }
         .copy-icon { color: var(--primary-color); cursor: pointer; font-size: 1.1rem; margin-left: 15px; transition: color 0.2s ease, transform 0.2s ease; }
         .copy-icon:hover { color: var(--secondary-color); transform: scale(1.2); }
-
         #status { text-align: center; margin: 15px 0 5px 0; color: var(--error-color); font-weight: 500; height: 1em; }
         .toast {
             position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 100px);
@@ -79,15 +72,7 @@
             display: flex; align-items: center; gap: 10px;
         }
         .toast.show { transform: translate(-50%, 0); opacity: 1; }
-        
-        /* NOVO ESTILO PARA O RODAPÉ */
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.9rem;
-            color: var(--text-light-color);
-        }
-        
+        footer { text-align: center; margin-top: 40px; font-size: 0.9rem; color: var(--text-light-color); }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @media (max-width: 600px) {
             body { padding: 20px 15px; justify-content: flex-start; }
@@ -107,71 +92,50 @@
         <p id="status"></p>
         <div id="map"></div>
         <ul id="resultado">
+            <li><strong class="label">ZIP</strong><div class="data-wrapper"><span id="zip" class="placeholder"></span></div><i class="fa-solid fa-copy copy-icon" data-target="zip" title="Copiar ZIP"></i></li>
+            <li><strong class="label">Address 1</strong><div class="data-wrapper"><span id="address1" class="placeholder">Rua, Avenida, etc.</span></div><i class="fa-solid fa-copy copy-icon" data-target="address1" title="Copiar Address 1"></i></li>
+            <li><strong class="label">Address 2</strong><div class="data-wrapper"><span id="address2" class="placeholder">Número e complemento</span></div><i class="fa-solid fa-copy copy-icon" data-target="address2" title="Copiar Address 2"></i></li>
+            <li><strong class="label">Address 3</strong><div class="data-wrapper"><span id="address3" class="placeholder">Bairro</span></div><i class="fa-solid fa-copy copy-icon" data-target="address3" title="Copiar Address 3"></i></li>
+            <li><strong class="label">City</strong><div class="data-wrapper"><span id="city" class="placeholder"></span></div><i class="fa-solid fa-copy copy-icon" data-target="city" title="Copiar City"></i></li>
+            <li><strong class="label">Estado</strong><div class="data-wrapper"><span id="estado" class="placeholder"></span></div><i class="fa-solid fa-copy copy-icon" data-target="estado" title="Copiar Estado"></i></li>
+            <li><strong class="label">Country</strong><div class="data-wrapper"><span id="country"></span></div><i class="fa-solid fa-copy copy-icon" data-target="country" title="Copiar Country"></i></li>
             <li>
-                <strong class="label">ZIP</strong>
-                <div class="data-wrapper"><span id="zip" class="placeholder"></span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="zip" title="Copiar ZIP"></i>
+                <strong class="label">Latitude</strong>
+                <div class="data-wrapper"><span id="latitude"></span></div>
+                <i class="fa-solid fa-copy copy-icon" data-target="latitude" title="Copiar Latitude"></i>
             </li>
-            <li>
-                <strong class="label">Address 1</strong>
-                <div class="data-wrapper"><span id="address1" class="placeholder">Rua, Avenida, etc.</span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="address1" title="Copiar Address 1"></i>
-            </li>
-            <li>
-                <strong class="label">Address 2</strong>
-                <div class="data-wrapper"><span id="address2" class="placeholder">Número e complemento</span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="address2" title="Copiar Address 2"></i>
-            </li>
-            <li>
-                <strong class="label">Address 3</strong>
-                <div class="data-wrapper"><span id="address3" class="placeholder">Bairro</span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="address3" title="Copiar Address 3"></i>
-            </li>
-            <li>
-                <strong class="label">City</strong>
-                <div class="data-wrapper"><span id="city" class="placeholder"></span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="city" title="Copiar City"></i>
-            </li>
-            <li>
-                <strong class="label">Estado</strong>
-                <div class="data-wrapper"><span id="estado" class="placeholder"></span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="estado" title="Copiar Estado"></i>
-            </li>
-            <li>
-                <strong class="label">Country</strong>
-                <div class="data-wrapper"><span id="country"></span></div>
-                <i class="fa-solid fa-copy copy-icon" data-target="country" title="Copiar Country"></i>
+             <li>
+                <strong class="label">Longitude</strong>
+                <div class="data-wrapper"><span id="longitude"></span></div>
+                <i class="fa-solid fa-copy copy-icon" data-target="longitude" title="Copiar Longitude"></i>
             </li>
         </ul>
     </div>
-    
-    <footer>
-        <p>&copy; 2025 Cavicon - Todos os direitos reservados.</p>
-    </footer>
-
+    <footer><p>&copy; 2025 Cavicon - Todos os direitos reservados.</p></footer>
     <div id="toast" class="toast"></div>
 
     <script>
-        // O JavaScript permanece o mesmo da versão anterior, pois é robusto e funcional.
         document.addEventListener('DOMContentLoaded', () => {
             const gerarBtn = document.getElementById('gerarBtn');
             const resultadoContainer = document.getElementById('resultado');
             const statusMsg = document.getElementById('status');
             const mapContainer = document.getElementById('map');
-            let map = null; 
-
+            let map = null;
+            
+            // Objeto de campos atualizado para incluir lat/lon
             const campos = {
                 zip: document.getElementById('zip'), address1: document.getElementById('address1'),
                 address2: document.getElementById('address2'), address3: document.getElementById('address3'),
                 city: document.getElementById('city'), estado: document.getElementById('estado'),
                 country: document.getElementById('country'),
+                latitude: document.getElementById('latitude'),
+                longitude: document.getElementById('longitude'),
             };
 
             function resetFields() {
                 resultadoContainer.classList.remove('visible');
                 mapContainer.classList.remove('visible');
                 if (map) { map.remove(); map = null; }
-
                 for(const key in campos) {
                     const span = campos[key];
                     span.textContent = '';
@@ -207,25 +171,43 @@
             async function success(position) {
                 const { latitude, longitude } = position.coords;
 
+                // Preenche o mapa e a lat/lon imediatamente
                 mapContainer.classList.add('visible');
                 map = L.map('map').setView([latitude, longitude], 17);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 }).addTo(map);
-                L.marker([latitude, longitude]).addTo(map)
-                    .bindPopup('<b>Você está aqui!</b>').openPopup();
+                L.marker([latitude, longitude]).addTo(map).bindPopup('<b>Você está aqui!</b>').openPopup();
 
+                campos.latitude.textContent = latitude.toFixed(6);
+                campos.longitude.textContent = longitude.toFixed(6);
+                campos.latitude.classList.remove('placeholder');
+                campos.longitude.classList.remove('placeholder');
+                
                 gerarBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass-location"></i> Buscando endereço...';
+                
                 try {
                     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
                     if (!response.ok) throw new Error('Falha na rede.');
                     
                     const data = await response.json();
-                    Object.values(campos).forEach(span => span.classList.remove('placeholder'));
-
+                    
                     if (data && data.address) {
-                        const addr = data.address;
-                        campos.zip.textContent = (addr.postcode || '').replace(/-/g, '');
+                        let addr = data.address;
+                        if (!addr.postcode && addr.road && addr.city) {
+                            const query = encodeURIComponent(`${addr.road}, ${addr.city}`);
+                            const fallbackResponse = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=1`);
+                            if(fallbackResponse.ok) {
+                                const fallbackData = await fallbackResponse.json();
+                                if(fallbackData.length > 0 && fallbackData[0].address.postcode) {
+                                    addr.postcode = fallbackData[0].address.postcode;
+                                }
+                            }
+                        }
+
+                        // Preenche o restante dos campos
+                        Object.keys(campos).forEach(key => campos[key].classList.remove('placeholder'));
+                        campos.zip.textContent = (addr.postcode || 'N/D').replace(/-/g, '');
                         campos.address1.textContent = (addr.road || '').toUpperCase();
                         campos.address2.textContent = (addr.house_number || 'S/N').toUpperCase();
                         campos.address3.textContent = (addr.suburb || '').toUpperCase();
@@ -233,6 +215,7 @@
                         campos.estado.textContent = (addr.state || '').toUpperCase();
                         campos.country.textContent = (addr.country || '').toUpperCase();
                         resultadoContainer.classList.add('visible');
+
                     } else { statusMsg.textContent = 'Endereço não encontrado.'; }
                 } catch (err) { statusMsg.textContent = 'Erro ao conectar ao serviço de endereços.'; } 
                 finally {
